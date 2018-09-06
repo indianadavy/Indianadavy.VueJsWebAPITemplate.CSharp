@@ -8,9 +8,9 @@ namespace aspnetcore.Services
 {
     public class OrderItemService : IOrderItemService
     {
-        private readonly ShipBobContext _context;
+        private readonly StoreContext _context;
 
-        public OrderItemService(ShipBobContext context)
+        public OrderItemService(StoreContext context)
         {
             _context = context;
         }
@@ -53,12 +53,6 @@ namespace aspnetcore.Services
 
             return await _context.SaveChangesAsync();
         }
-            // var oldOrder = _context.Orders.SingleOrDefaultAsync(o => o.ID == order.ID).;
-            // if (oldOrder != null)
-            // {
-            //     oldOrder
-            // }
-            // await _context.Orders.Update();
         #endregion
 
         #region Users

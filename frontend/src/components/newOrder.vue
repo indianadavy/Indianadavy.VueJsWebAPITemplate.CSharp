@@ -3,14 +3,14 @@
         <div v-if="!submitted">
             <h2>Create a New Order</h2>
             <label>Selecte a User</label>
-            <select v-model="selected">
-                <option selected='' v-for="(user,index) in users" :key="index" v-bind:value="user.id">
+            <select v-model="userSelected">
+                <option userSelected='' v-for="(user,index) in users" :key="index" v-bind:value="user.id">
                     {{ user.firstName + ' ' + user.lastName }}
                 </option>
             </select>
         </div>
 
-        <form v-if="!submitted && selected" @submit.prevent="checkForm">
+        <form v-if="!submitted && userSelected" @submit.prevent="checkForm">
             <label>Name:</label>
             <input type="text" v-model.lazy="order.name" required />
             <label>Street Address:</label>
@@ -38,11 +38,19 @@
 export default {
     data () {
         return {
-            users: [],
-            order: {},
-            selected: '',
-            submitted: false,
+            userSelected: '',
             errors: []
+        }
+    },
+    computed: {
+        users() {
+            return this.$store.state.users;
+        },
+        order(){
+            return this.$store.state.order;
+        },
+        submitted(){
+            return this.$store.state.ui.order.submitted;
         }
     },
     methods: {
@@ -55,40 +63,27 @@ export default {
             if(!this.order.zipCode) this.errors.push("Zip Code required.");
             if(!this.order.trackingID) this.errors.push("Tracking ID required.");
             if(!this.errors.length){
-                this.post();
+                this.createOrder();
             }
             else{
-                console.log("there are errors");
+                // TODO: What do we do here?
+                // console.log("there are errors");
                 e.preventDefault();
             } 
         },
-        post: function(){
-            if (!this.order.trackingID == '')
-            {
-                this.order.userID = this.selected;
-                this.$http.post('http://localhost:5000/api/order', this.order).then(function(data){
-                    this.submitted = true;
-                    this.selected = '';
-                });
-            }
-            else {
-                console.log('missing info');
-            }
+        createOrder: function(){
+            this.order.userID = this.userSelected;
+            this.$store.dispatch('createOrder', this.order, this.selected);
         },
         reload: function() {    
             this.$router.go(this.$router.currentRoute)
         },
         resetForm: function() {
-            this.submitted = false;
-            this.order = {};
+            this.$store.dispatch('resetForm', 'order');
         }
     },
     created() {
-        this.$http.get('http://localhost:5000/api/user').then(function(data){
-            return data.json();
-        }).then(function(data){
-            this.users = data;
-        });  
+        this.$store.dispatch('getUsers'); 
     }
 }
 </script>

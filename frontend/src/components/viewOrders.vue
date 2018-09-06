@@ -17,37 +17,32 @@
 </template>
 
 <script>
-
 export default {
     data () {
         return {
-            users: [],
-            orders: [],
             selected: ''
         }
     },
+    computed: {
+        users() {
+            return this.$store.state.users;
+        },
+        orders() {
+            return this.$store.state.orders;
+        }
+    },
     watch: {
-        selected: function (newVal, oldVal) {
-            this.get();
+        selected: function() {
+            this.getOrdersForUser();
         }
     },
     methods: {
-        get: function(){
-            this.$http.get('http://localhost:5000/api/order/forUser/' + this.selected).then(function(data){
-                return data.json()
-            }).then(function(data){
-                //console.log(data);
-                this.orders = data;
-            });
+        getOrdersForUser: function() {
+            this.$store.dispatch('getOrdersForUser', this.selected);
         }
     },
     created() {
-        this.$http.get('http://localhost:5000/api/user').then(function(data){
-            return data.json();
-        }).then(function(data){
-            //console.log(data);
-            this.users = data;
-        });
+        this.$store.dispatch('getUsers'); 
     }
 }
 </script>

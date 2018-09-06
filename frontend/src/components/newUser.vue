@@ -19,34 +19,32 @@
 // Imports
 
 export default {
-    data () {
-        return {
-            user: {},
-            submitted: ''
-        }
-    },
     methods: {
         checkForm:function(e) {
             this.errors = [];
             if(!this.user.firstName) this.errors.push("First Name required.");
             if(!this.user.lastName) this.errors.push("Last Name required.");
             if(!this.errors.length){
-                this.post();
+                this.createUser();
             }
             else{
-                console.log("there are errors");
+                //console.log("there are errors");
                 e.preventDefault();
             } 
         },
-        post: function(){
-            this.$http.post('http://localhost:5000/api/user', this.user).then(function(data){
-                console.log(data);
-                this.submitted = true;
-            });
+        createUser: function() {
+            this.$store.dispatch('createUser', this.user);
         },
         resetForm: function() {
-            this.submitted = false;
-            this.user = {}
+            this.$store.dispatch('resetForm', 'user');
+        }
+    },
+    computed: {
+        user(){
+            return this.$store.state.user;
+        },
+        submitted(){
+            return this.$store.state.ui.user.submitted;
         }
     }
 }

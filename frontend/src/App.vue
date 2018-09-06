@@ -15,9 +15,7 @@ export default {
         'app-header': header
     },
     data () {
-        return {
-
-        }
+        return {}
     },
     methods: {
 

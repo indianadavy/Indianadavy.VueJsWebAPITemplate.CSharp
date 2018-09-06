@@ -6,7 +6,7 @@ using aspnetcore.Models;
 
 namespace aspnetcore.Migrations
 {
-    [DbContext(typeof(ShipBobContext))]
+    [DbContext(typeof(StoreContext))]
     partial class ShipBobContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

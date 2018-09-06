@@ -7,7 +7,7 @@ using aspnetcore.Models;
 
 namespace aspnetcore.Migrations
 {
-    [DbContext(typeof(ShipBobContext))]
+    [DbContext(typeof(StoreContext))]
     [Migration("20180826194910_InitialCreate")]
     partial class InitialCreate
     {

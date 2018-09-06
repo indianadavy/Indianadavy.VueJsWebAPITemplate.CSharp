@@ -15,13 +15,14 @@
             "label": "Web Api",
             "type": "shell",
             "group": "build",
-            "command": "cd ${workspaceFolder}/aspnetcore; dotnet run;"
+            "command": "cd ${workspaceFolder}/aspnetcore; dotnet run;",
+            "problemMatcher": []
         },
-        { 
-            "label": "Vue", 
-            "type": "shell", 
-            "group": "build", 
-            "command": "cd ${workspaceFolder}/frontend; npm run serve;" 
+        {
+            "label": "Vue",
+            "type": "shell",
+            "group": "build",
+            "command": "cd ${workspaceFolder}/frontend; npm run serve;"
         }
     ]
 }

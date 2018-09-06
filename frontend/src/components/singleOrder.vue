@@ -17,7 +17,7 @@
             <button type="submit">Update Order</button>
         </form>
         <div v-if="submitted">
-            <h3>Order #{{ order.trackingID }} upated</h3>
+            <h3>Order #{{ order.trackingID }} updated</h3>
         </div>
     </div>
 </template>
@@ -26,9 +26,7 @@
 export default {
     data () {
         return {
-            id: this.$route.params.id,
-            order: {},
-            submitted: false
+            id: this.$route.params.id
         }
     },
     methods: {
@@ -41,25 +39,28 @@ export default {
             if(!this.order.zipCode) this.errors.push("Zip Code required.");
             if(!this.order.trackingID) this.errors.push("Tracking ID required.");
             if(!this.errors.length){
-                this.put();
+                this.updateOrder();
             }
             else{
-                console.log("there are errors");
+                // TODO: what to do here?
+                //console.log("there are errors");
                 e.preventDefault();
             } 
         },
-        put: function(){
-            console.log(this.order);
-            this.$http.put('http://localhost:5000/api/order', this.order).then(function(data){
-                this.submitted = true;
-            });
+        updateOrder: function(){
+            this.$store.dispatch('updateOrder', this.order);
+        }
+    },
+    computed: {
+        order(){
+            return this.$store.state.order;
+        },
+        submitted(){
+            return this.$store.state.ui.order.submitted;
         }
     },
     created() {
-        this.$http.get('http://localhost:5000/api/order/' + this.id).then(function(data){
-            console.log(data);
-            this.order = data.body;
-        });
+        this.$store.dispatch('getOrder', this.id);
     }
 }
 </script>

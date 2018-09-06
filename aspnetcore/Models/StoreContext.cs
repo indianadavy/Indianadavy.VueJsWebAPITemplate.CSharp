@@ -5,9 +5,9 @@ using Microsoft.Data.Sqlite;
 
 namespace aspnetcore.Models
 {
-    public class ShipBobContext : DbContext
+    public class StoreContext : DbContext
     {
-        public ShipBobContext(DbContextOptions<ShipBobContext> options) : base(options)
+        public StoreContext(DbContextOptions<StoreContext> options) : base(options)
         {
         }
 
@@ -23,7 +23,7 @@ namespace aspnetcore.Models
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source=ShipBob.db");
+            optionsBuilder.UseSqlite("Data Source=Store.db");
         }
     }
 }
