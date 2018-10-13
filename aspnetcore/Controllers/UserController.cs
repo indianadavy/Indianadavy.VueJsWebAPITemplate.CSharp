@@ -12,9 +12,7 @@ namespace aspnetcore.Controllers
     [Route("api/[controller]")]
     public class UserController : Controller
     {
-
         private readonly IOrderItemService _orderItemService;
-
         public UserController(IOrderItemService orderItemService)
         {
             _orderItemService = orderItemService;
@@ -28,16 +26,16 @@ namespace aspnetcore.Controllers
         }  
 
         [HttpPost]
-        public IActionResult Create([FromBody] UserItem item)
+        public async Task<IActionResult> Create([FromBody] UserItem item)
         {
            if (item == null)
            {
                return BadRequest();
            }
 
-           _orderItemService.CreateUser(item);
+           var result = await _orderItemService.CreateUser(item);
            
-           return Ok();
+           return Ok(result);
         }
     }
 }

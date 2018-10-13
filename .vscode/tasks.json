@@ -22,7 +22,10 @@
             "label": "Vue",
             "type": "shell",
             "group": "build",
-            "command": "cd ${workspaceFolder}/frontend; npm run serve;"
+            "command": "cd ${workspaceFolder}/frontend; npm run serve;",
+            "problemMatcher": [
+                "$eslint-compact"
+            ]
         }
     ]
 }

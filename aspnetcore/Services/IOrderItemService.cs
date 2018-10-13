@@ -14,6 +14,5 @@ namespace aspnetcore.Services
         Task<int> UpdateOrder(OrderItem order);
         Task<IEnumerable<UserItem>> GetAllUsersAsync();
         Task<int> CreateUser(UserItem user);
-
     }
 }

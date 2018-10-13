@@ -82,7 +82,8 @@ export default {
             this.$store.dispatch('resetForm', 'order');
         }
     },
-    created() {
+    beforeCreate() {
+        this.$store.dispatch('resetForm', 'order');
         this.$store.dispatch('getUsers'); 
     }
 }

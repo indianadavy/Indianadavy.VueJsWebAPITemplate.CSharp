@@ -59,6 +59,9 @@ export default {
             return this.$store.state.ui.order.submitted;
         }
     },
+    beforeCreate() {
+        this.$store.dispatch('resetForm', 'order');
+    },
     created() {
         this.$store.dispatch('getOrder', this.id);
     }

@@ -3,13 +3,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using aspnetcore.Models;
+using System;
 
 namespace aspnetcore.Services
 {
     public class OrderItemService : IOrderItemService
     {
-        private readonly StoreContext _context;
-
+        private StoreContext _context;
         public OrderItemService(StoreContext context)
         {
             _context = context;
@@ -35,9 +35,18 @@ namespace aspnetcore.Services
             return orders;
         }
         public async Task<int> CreateOrder(OrderItem order)
-        {
-            await _context.Orders.AddAsync(order);
-            return await _context.SaveChangesAsync();
+        {      
+            int result = 0;
+            try 
+            {
+                await _context.Orders.AddAsync(order);
+                result = await _context.SaveChangesAsync();
+            }
+            catch(Exception e)
+            {
+                System.Console.Write(e.ToString());
+            }
+            return result;
         }
         public async Task<int> UpdateOrder(OrderItem order)
         {
@@ -49,18 +58,16 @@ namespace aspnetcore.Services
             orderToUpdate.State = order.State;
             orderToUpdate.ZipCode = order.ZipCode;
             orderToUpdate.TrackingID = order.TrackingID;
-            orderToUpdate.UserID = order.UserID;
-
+            orderToUpdate.UserID = order.UserID;  
+          
             return await _context.SaveChangesAsync();
         }
         #endregion
 
         #region Users
         public async Task<IEnumerable<UserItem>> GetAllUsersAsync()
-        {
-            var users = await _context.Users.ToArrayAsync();
-
-            return users;
+        {   
+            return await _context.Users.ToArrayAsync();  
         }
         public async Task<int> CreateUser(UserItem user)
         {

@@ -53,6 +53,10 @@ export default new Vuex.Store({
     },
     orderFormSubmitted(state, newVal) {
       state.ui.order.submitted = newVal;
+    },
+    clearOrders(state) {
+      state.orders = [];
+      state.order = {};
     }
   },
   actions: {
@@ -106,19 +110,6 @@ export default new Vuex.Store({
         });
       })
     },
-    // if (!this.order.trackingID == '')
-    //         {
-    //             this.order.userID = this.selected;
-    //             this.$http.post('http://localhost:5000/api/order', this.order).then(function(){
-    //                 this.submitted = true;
-    //                 this.selected = '';
-    //             });
-    //         }
-    //         else {
-    //             // TODO: What do we do here?
-    //             // console.errors('missing info');
-    //         }
-
     updateOrder({ commit }, order) {
       return new Promise((resolve, reject) => {
         Vue.http.put('http://localhost:5000/api/order', order)
@@ -131,6 +122,10 @@ export default new Vuex.Store({
           reject(error);
         });
       })   
+    },
+    clearOrders({ commit }) {
+      commit('setOrder', {});
+      commit('setOrders', []);
     }
   }
 });

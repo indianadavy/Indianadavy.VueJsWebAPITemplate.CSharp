@@ -12,9 +12,7 @@ namespace aspnetcore.Controllers
     //[Route("api/[controller]")]
     public class OrderController : Controller
     {
-
         private readonly IOrderItemService _orderItemService;
-
         public OrderController(IOrderItemService orderItemService)
         {
             _orderItemService = orderItemService;
@@ -36,16 +34,6 @@ namespace aspnetcore.Controllers
                 return NotFound("Order not found");
             }
             return Ok(item);
-            // return new ObjectResult(item);
-
-            //  var model = await _db.Get(...);
-
-            // if (model == null)
-            // {
-            //     return NotFound("Product not found");
-            // }
-
-            // return Ok(model);
         }
 
         [HttpGet("Api/Order/ForUser/{userID}", Name = "GetOrdersForUser")]
@@ -56,18 +44,19 @@ namespace aspnetcore.Controllers
         }
 
         [HttpPost("Api/Order")]
-        public IActionResult Create([FromBody] OrderItem item)
+        public async Task<IActionResult> Create([FromBody] OrderItem item)
         {
            if (item == null)
            {
                return BadRequest();
            }
-           _orderItemService.CreateOrder(item); 
+           var response = await _orderItemService.CreateOrder(item); 
+
            return Ok();
         }
 
         [HttpPut("Api/Order")]
-        public IActionResult Update([FromBody] OrderItem item)
+        public async Task<IActionResult> Update([FromBody] OrderItem item)
         {
             if (item == null)
             {
@@ -75,7 +64,7 @@ namespace aspnetcore.Controllers
             }
             try
             {
-                _orderItemService.UpdateOrder(item);
+                var response = await _orderItemService.UpdateOrder(item);
             }
             catch (Exception)
             {

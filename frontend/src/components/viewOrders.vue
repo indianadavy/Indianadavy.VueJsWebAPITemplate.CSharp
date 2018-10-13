@@ -41,7 +41,8 @@ export default {
             this.$store.dispatch('getOrdersForUser', this.selected);
         }
     },
-    created() {
+    beforeCreate() {
+        this.$store.dispatch('clearOrders');
         this.$store.dispatch('getUsers'); 
     }
 }
